@@ -50,7 +50,7 @@ class Main(Cmd):
     """Enter a comma-separated list of players. This will also reset
     the roles list to a sensible default."""
     if s == "":
-      print self.players
+      print str(self.players)
     else:
       players = s.split(",")
       self.players = players
@@ -59,7 +59,7 @@ class Main(Cmd):
     """Enter the roles to be used, in a format like
     roles Villager 3, Wolf 2, Seer 1"""
     if s == "":
-      print self.roles
+      print str(self.roles)
     else:
       roles = [role.strip().split(" ") for role in s.split(",")]
       roles = [(role,int(count)) for [role,count] in roles]
@@ -121,7 +121,7 @@ class Main(Cmd):
     (player,target) = s.split(" ")
     if player in self.players and target in self.players:
       result = self.game.seerAlignmentVision(player,target)
-      print "see", player, "you (", player, ") see", target, "as", result
+      print "see " + player + " you (" + player + ") see " + target + " as " + str(result)
     else:
       print "Error: player 0 or 1 not found!".format(player,target)
   def do_save(self,s):
