@@ -5,25 +5,55 @@ export class ChatRoom extends Room {
     // this room supports only 4 clients connected
     maxClients = 4;
 
-
     onCreate (options) {
         console.log("ChatRoom created!", options);
         const wolves = spawn('/usr/bin/python2.7', ['-u','../bra-ket-wolf/main.py']);
 
+        const nameToClient = {};
+
         wolves.stdout.on('data', (data) => {
             var msg = `${data}`;
-            if( ! msg.startsWith('admin'))
+            if( ! msg.startsWith('namedtable'))
                 this.broadcast("messages", msg);
+            else {
+                console.log(msg);
+                console.log('--');
+            }
             console.log(msg);
+            console.log('bleh');
         });
 
         this.onMessage("message", (client, message) => {
             console.log("ChatRoom received message from", client.sessionId, ":", message);
+            //this.broadcast("messages", `(${client.sessionId}) ${message}`);
             var msg = `${message}`;
-            if(msg.startsWith('players'))
-                this.broadcast("messages", `(${client.sessionId}) ${message}`);
-            wolves.stdin.write(message);
-            wolves.stdin.write('\n');
+            if(msg.startsWith('name ')) {
+                nameToClient[msg.split(' ')[1]] = client;
+                this.broadcast("messages", `${client.sessionId} is ${msg.split(' ')[1]}`);
+                var players = "players ";
+                var first = true;
+                var n;
+                for (n in nameToClient) {
+                    if(first)
+                        first = false;
+                    else
+                        players = players + ',';
+                    players = players + n;
+                }
+                wolves.stdin.write(players);
+                wolves.stdin.write('\n');
+            } else if(msg.startsWith('reset')) {
+                const nameToClient = {};
+                // todo: redo process
+            } else if(msg.startsWith('start') || msg.startsWith('next')) {
+                wolves.stdin.write(message);
+                wolves.stdin.write('\n');
+                wolves.stdin.write('table\n');
+                wolves.stdin.write('namedtable\n');
+            } else {
+                wolves.stdin.write(message);
+                wolves.stdin.write('\n');
+            }
         });
     }
 

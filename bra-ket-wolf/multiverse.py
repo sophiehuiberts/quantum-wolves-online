@@ -64,7 +64,7 @@ class Multiverse:
       evil = sum([v for (k,v) in probs.items() if k.alignment == roles.WolfAlignment])
       dead = self.getDeadness(player)
       if names:
-        rows.append(['admin',str(i+1),player,"{0:.2%}".format(good),"{0:.2%}".format(evil),"{0:.2%}".format(dead)])
+        rows.append(['namedtable',str(i+1),player,"{0:.2%}".format(good),"{0:.2%}".format(evil),"{0:.2%}".format(dead)])
       else:
         rows.append([str(i+1),"{0:.2%}".format(good),"{0:.2%}".format(evil),"{0:.2%}".format(dead)])
     lens = [0] * len(headers)
