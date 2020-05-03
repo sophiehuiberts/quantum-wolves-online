@@ -84,6 +84,10 @@ export class ChatRoom extends Room {
             } else if(msg.startsWith('attack') ) {
                 wolves.stdin.write(message);
                 wolves.stdin.write('\n');
+            } else if(msg.startsWith('new') ) {
+                nameToClient = {};
+                this.broadcast("messages", "dropped all players");
+                this.broadcast("messages", "if you want to play in the next game, use `name yourname`.");
             } else {
                 wolves.stdin.write(message);
                 wolves.stdin.write('\n');
