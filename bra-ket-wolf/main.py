@@ -25,6 +25,7 @@ from cmd import Cmd
 from multiverse import Multiverse
 
 class Main(Cmd):
+  prompt = '';
   def __init__(self):
     Cmd.__init__(self)
     self.players = []
