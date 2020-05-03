@@ -52,7 +52,7 @@ class Multiverse:
 
   def getGoodEvilDeadTable(self,names=True):
     if names:
-      headers = "admin Player Name Good Evil Dead".split(" ")
+      headers = "namedtable Player Name Good Evil Dead".split(" ")
     else:
       headers = "Player Good Evil Dead".split(" ")
     rows = [headers]

@@ -13,20 +13,37 @@ export class ChatRoom extends Room {
 
         wolves.stdout.on('data', (data) => {
             var msg = `${data}`;
-            if( ! msg.startsWith('namedtable'))
-                this.broadcast("messages", msg);
-            else {
-                console.log(msg);
-                console.log('--');
+            var lines = msg.split('\n');
+            var l;
+            for( l in lines)
+            {
+                var line = lines[l];
+                console.log(line)
+                if( line.startsWith('namedtable')) {
+                    var name = line.slice(20).split(' ')[0];
+                    if(nameToClient[name] != undefined) {
+                        nameToClient[name].send("messages",line.slice(10));
+                    }
+                } else if (line.startsWith('see')) {
+                    var name = line.split(' ')[1];
+                    var result = line.slice(5 + name.length);
+                    nameToClient[name].send("messages", result);
+                } else
+                    this.broadcast("messages", line);
             }
+        });
+
+        wolves.stderr.on('data', (data) => {
+            var msg = `${data}`;
             console.log(msg);
-            console.log('bleh');
+            this.broadcast(msg);
         });
 
         this.onMessage("message", (client, message) => {
             console.log("ChatRoom received message from", client.sessionId, ":", message);
             //this.broadcast("messages", `(${client.sessionId}) ${message}`);
             var msg = `${message}`;
+            client.send("messages", "you executed `" + msg + "`");
             if(msg.startsWith('name ')) {
                 nameToClient[msg.split(' ')[1]] = client;
                 this.broadcast("messages", `${client.sessionId} is ${msg.split(' ')[1]}`);
@@ -50,6 +67,15 @@ export class ChatRoom extends Room {
                 wolves.stdin.write('\n');
                 wolves.stdin.write('table\n');
                 wolves.stdin.write('namedtable\n');
+            } else if(msg.startsWith('kill') ) {
+                this.broadcast("messages", "killing " + msg.slice(5));
+                wolves.stdin.write(message);
+                wolves.stdin.write('\n');
+                wolves.stdin.write('table\n');
+                wolves.stdin.write('namedtable\n');
+            } else if(msg.startsWith('attack') ) {
+                wolves.stdin.write(message);
+                wolves.stdin.write('\n');
             } else {
                 wolves.stdin.write(message);
                 wolves.stdin.write('\n');

@@ -101,7 +101,7 @@ class Main(Cmd):
     if player in self.players and target in self.players:
       self.game.wolfAttack(player,target)
     else:
-      print "Error: player {0:s} or {1:s} not found!".format(player,target)
+      print "Error: player 0 or 1 not found!".format(player,target)
   def do_see(self,s):
     """see <player> <target>: seer target during night.
     Note: these are executed immediately, so according to the rules
@@ -112,9 +112,9 @@ class Main(Cmd):
     (player,target) = s.split(" ")
     if player in self.players and target in self.players:
       result = self.game.seerAlignmentVision(player,target)
-      print result
+      print "see", player, "you (", player, ") see", target, "as", result
     else:
-      print "Error: player {0:s} or {1:s} not found!".format(player,target)
+      print "Error: player 0 or 1 not found!".format(player,target)
   def do_save(self,s):
     """Saves the game, by default to 'current.bra-ket-wolf' but you
     can give another file name as parameter."""
