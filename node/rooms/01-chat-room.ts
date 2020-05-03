@@ -42,9 +42,9 @@ export class ChatRoom extends Room {
         wolves.on('close', () => {
             console.log('close');
             nameToClient = {};
-            this.broadcast("messages", "child process ended. restarting now.");
-            this.broadcast("messages", "players have been reset.");
-            wolves = spawn('/usr/bin/python2.7', ['-u','../bra-ket-wolf/main.py']);
+            this.broadcast("messages", "child process ended.");
+            this.broadcast("messages", "there is no graceful failure.");
+            this.broadcast("messages", "restart the server please.");
         });
 
         this.onMessage("message", (client, message) => {
