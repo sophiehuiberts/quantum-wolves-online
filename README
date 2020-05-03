@@ -1,0 +1,27 @@
+Playing quantum werewolves in times of covid 19.
+
+
+> instructions for running the thing
+
+$ git clone <this repo>
+$ cd node
+$ npm install
+
+> run using
+$ npm start
+
+> instructions for using the thing
+really the instructions are on https://github.com/verhoevenv/bra-ket-wolf
+better instructions will come when things are a bit more online
+
+
+
+Networking code is adapted from
+https://github.com/colyseus/colyseus-examples
+
+Quantum werewolves code is adapted from
+https://github.com/verhoevenv/bra-ket-wolf
+
+
+Sophie Huiberts, 2020
+GPL v3
