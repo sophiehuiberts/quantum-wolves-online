@@ -7,9 +7,9 @@ export class ChatRoom extends Room {
 
     onCreate (options) {
         console.log("ChatRoom created!", options);
-        const wolves = spawn('/usr/bin/python2.7', ['-u','../bra-ket-wolf/main.py']);
+        var wolves = spawn('/usr/bin/python2.7', ['-u','../bra-ket-wolf/main.py']);
 
-        const nameToClient = {};
+        var nameToClient = {};
 
         wolves.stdout.on('data', (data) => {
             var msg = `${data}`;
@@ -22,7 +22,7 @@ export class ChatRoom extends Room {
                 if( line.startsWith('namedtable')) {
                     var name = line.slice(20).split(' ')[0];
                     if(nameToClient[name] != undefined) {
-                        nameToClient[name].send("messages",line.slice(10));
+                        nameToClient[name].send("messages",line.slice(12));
                     }
                 } else if (line.startsWith('see')) {
                     var name = line.split(' ')[1];
@@ -37,6 +37,14 @@ export class ChatRoom extends Room {
             var msg = `${data}`;
             console.log(msg);
             this.broadcast(msg);
+        });
+
+        wolves.on('close', () => {
+            console.log('close');
+            nameToClient = {};
+            this.broadcast("messages", "child process ended. restarting now.");
+            this.broadcast("messages", "players have been reset.");
+            wolves = spawn('/usr/bin/python2.7', ['-u','../bra-ket-wolf/main.py']);
         });
 
         this.onMessage("message", (client, message) => {

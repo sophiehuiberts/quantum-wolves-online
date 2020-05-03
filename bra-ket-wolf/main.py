@@ -75,12 +75,21 @@ class Main(Cmd):
     print self.game
   def do_table(self,s):
     """Returns an overview table of the distribution of good and evil."""
+    if self.game is None:
+        print "Unable to do table because game is None"
+        return
     print self.game.getGoodEvilDeadTable(False)
   def do_namedtable(self,s):
+    if self.game is None:
+        print "Unable to do namedtable because game is None"
+        return
     """Returns an overview table of the distribution of good and evil, with player names."""
     print self.game.getGoodEvilDeadTable(True)
   def do_next(self,s):
     """Starts the next phase of the game."""
+    if self.game is None:
+        print "Unable to do next because game is None"
+        return
     self.game.nextPhase()
     print "It is now %s%s" % self.game.time
   def do_kill(self,s):
@@ -117,7 +126,10 @@ class Main(Cmd):
       print "Error: player 0 or 1 not found!".format(player,target)
   def do_save(self,s):
     """Saves the game, by default to 'current.bra-ket-wolf' but you
-    can give another file name as parameter."""
+    can give another file name asnext parameter."""
+    if self.game is None:
+        print "Unable to do save because game is None"
+        return
     filename = s
     if filename == "":
       filename = "current.bra-ket-wolf"
