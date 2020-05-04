@@ -44,7 +44,7 @@ export class ChatRoom extends Room {
             nameToClient = {};
             this.broadcast("messages", "child process ended.");
             this.broadcast("messages", "there is no graceful failure.");
-            this.broadcast("messages", "restart the server please.");
+            this.broadcast("messages", "restart the server and refresh page please.");
         });
 
         this.onMessage("message", (client, message) => {
@@ -67,9 +67,6 @@ export class ChatRoom extends Room {
                 }
                 wolves.stdin.write(players);
                 wolves.stdin.write('\n');
-            } else if(msg.startsWith('reset')) {
-                const nameToClient = {};
-                // todo: redo process
             } else if(msg.startsWith('start') || msg.startsWith('next')) {
                 wolves.stdin.write(message);
                 wolves.stdin.write('\n');
@@ -88,6 +85,10 @@ export class ChatRoom extends Room {
                 nameToClient = {};
                 this.broadcast("messages", "dropped all players");
                 this.broadcast("messages", "if you want to play in the next game, use `name yourname`.");
+            } else if(msg.startsWith('reset')) {
+                console.log("reset");
+                this.broadcast("messages", "game deleted. refresh the page");
+                this.disconnect();
             } else {
                 wolves.stdin.write(message);
                 wolves.stdin.write('\n');
@@ -99,8 +100,18 @@ export class ChatRoom extends Room {
         this.broadcast("messages", `${ client.sessionId } joined.`);
     }
 
-    onLeave (client) {
+    async onLeave (client, consented: boolean) {
+      try {
+        console.log(`${client.sessionId} disconnected`);
+        // allow disconnected client to reconnect into this room until 10 seconds
+        await this.allowReconnection(client, 10);
+        console.log(`${client.sessionId} reconnected`);
+        this.broadcast("messages", `${ client.sessionId } reconnected.`);
+      } catch (e) {
+        // 10 seconds expired. let's remove the client.
+        console.log(`${client.sessionId} left`);
         this.broadcast("messages", `${ client.sessionId } left.`);
+      }
     }
 
     onDispose () {
