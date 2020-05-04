@@ -14,6 +14,7 @@ then point your browser at http://localhost:2567/01-chat.html
 
 > instructions for using the thing
 basic instructions included atop the interface.
+some fancy instructions are over at
 https://github.com/verhoevenv/bra-ket-wolf
 
 there is exactly one game room per instance of the server.
