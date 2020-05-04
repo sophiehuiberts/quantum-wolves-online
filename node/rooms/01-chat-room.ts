@@ -7,7 +7,7 @@ export class ChatRoom extends Room {
 
     onCreate (options) {
         console.log("ChatRoom created!", options);
-        var wolves = spawn('/usr/bin/python2.7', ['-u','../bra-ket-wolf/main.py']);
+        var wolves = spawn('python2.7', ['-u','../bra-ket-wolf/main.py']);
 
         var nameToClient = {};
 

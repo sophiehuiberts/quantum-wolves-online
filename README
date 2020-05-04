@@ -2,17 +2,19 @@ Playing quantum werewolves in times of covid 19.
 
 
 > instructions for running the thing
+Have python 2.7 and npm installed.
 
 $ git clone <this repo>
-$ cd node
+$ cd quantum-wolves-online/node
 $ npm install
 
 > run using
 $ npm start
+then point your browser at http://localhost:2567/01-chat.html
 
 > instructions for using the thing
-really the instructions are on https://github.com/verhoevenv/bra-ket-wolf
-better instructions will come when things are a bit more online
+basic instructions included atop the interface.
+https://github.com/verhoevenv/bra-ket-wolf
 
 
 
