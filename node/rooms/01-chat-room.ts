@@ -2,8 +2,8 @@ import { Room } from "colyseus";
 const { spawn } = require('child_process')
 
 export class ChatRoom extends Room {
-    // this room supports only 4 clients connected
-    maxClients = 4;
+    // this room supports only 10 clients connected
+    maxClients = 10;
 
     onCreate (options) {
         console.log("ChatRoom created!", options);
