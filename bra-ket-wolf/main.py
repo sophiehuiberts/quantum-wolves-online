@@ -106,7 +106,11 @@ class Main(Cmd):
     if self.game is None:
         print "Unable to do attack because game is None"
         return
-    (player,target) = s.split(" ")
+    tuple = s.split(" ")
+    if len(tuple) != 2:
+        print "Error: attack needs exactly two arguments, attacker's name and target's name"
+        return
+    (player,target) = tuple
     if player in self.players and target in self.players:
       self.game.wolfAttack(player,target)
     else:
