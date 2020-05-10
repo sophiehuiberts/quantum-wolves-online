@@ -10,7 +10,7 @@ $ npm install
 
 > run using
 $ npm start
-then point your browser at http://localhost:2567/01-chat.html
+then have your players point their browsers at http://[your-machine]:2567/01-chat.html
 
 > instructions for using the thing
 basic instructions included atop the interface.
